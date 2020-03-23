@@ -8,7 +8,7 @@ namespace RabbitMqTestTask.WebApi.BusinessLogic.Models.Transaction
     {
         [Required]
         public int ClientId { get; set; }
-        [Required, Range(0.0, double.MaxValue)]
+        [Required, Range(0.01, double.MaxValue)]
         public decimal Amount { get; set; }
         [EnumDataType(typeof(CurrencyModel))]
         public CurrencyModel Currency { get; set; }
