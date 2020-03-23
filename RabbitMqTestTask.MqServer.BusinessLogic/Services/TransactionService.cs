@@ -42,7 +42,7 @@ namespace RabbitMqTestTask.MqServer.BusinessLogic.Services
 
             var transactionGetMqResponse = new TransactionGetAllMqResponse()
             {
-                Transactions = transactions.Select(transactionProperty=> transactionProperty.ToMqModel()).ToList(),
+                Transactions = transactions.Select(transactionProperty => transactionProperty.ToMqModel()).ToList(),
             };
 
             return transactionGetMqResponse;

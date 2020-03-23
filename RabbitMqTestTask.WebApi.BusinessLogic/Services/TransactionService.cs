@@ -28,48 +28,33 @@ namespace RabbitMqTestTask.WebApi.BusinessLogic.Services
 
         public async Task<TransactionAddResponse> AddAsync(TransactionAddRequest transactionAddRequest)
         {
-            TransactionAddResponse transactionAddResponse;
-
             TransactionAddMqRequest transactionAddMqRequest = transactionAddRequest.ToMqModel();
 
             transactionAddMqRequest.DepartmentAddress = _httpContextAccessor.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
 
-            using (var bus = CreateBus())
-            {
-                TransactionAddMqResponse transactionAddMqResponse = await bus.RequestAsync<TransactionAddMqRequest, TransactionAddMqResponse>(transactionAddMqRequest);
+            using var bus = CreateBus();
 
-                transactionAddResponse = transactionAddMqResponse.ToModel();
-            }
+            TransactionAddMqResponse transactionAddMqResponse = await bus.RequestAsync<TransactionAddMqRequest, TransactionAddMqResponse>(transactionAddMqRequest);
 
-            return transactionAddResponse;
+            return transactionAddMqResponse.ToModel();
         }
 
         public async Task<TransactionGetResponse> GetByIdAsync(TransactionGetByIdRequest transactionGetByIdRequest)
         {
-            TransactionGetResponse transactionGetResponse;
+            using var bus = CreateBus();
 
-            using (var bus = CreateBus())
-            {
-                TransactionGetMqResponse transactionGetMqResponse = await bus.RequestAsync<TransactionGetByIdMqRequest, TransactionGetMqResponse>(transactionGetByIdRequest.ToMqModel());
+            TransactionGetMqResponse transactionGetMqResponse = await bus.RequestAsync<TransactionGetByIdMqRequest, TransactionGetMqResponse>(transactionGetByIdRequest.ToMqModel());
 
-                transactionGetResponse = transactionGetMqResponse.ToModel();
-            }
-
-            return transactionGetResponse;
+            return transactionGetMqResponse.ToModel();
         }
 
         public async Task<TransactionGetAllResponse> GetAllByClientAsync(TransactionGetAllByClientRequest transactionGetByClientRequest)
         {
-            TransactionGetAllResponse transactionGetResponse;
+            using var bus = CreateBus();
 
-            using (var bus = CreateBus())
-            {
-                TransactionGetAllMqResponse transactionGetAllMqResponse = await bus.RequestAsync<TransactionGetAllByClientMqRequest, TransactionGetAllMqResponse>(transactionGetByClientRequest.ToMqModel());
+            TransactionGetAllMqResponse transactionGetAllMqResponse = await bus.RequestAsync<TransactionGetAllByClientMqRequest, TransactionGetAllMqResponse>(transactionGetByClientRequest.ToMqModel());
 
-                transactionGetResponse = transactionGetAllMqResponse.ToModel();
-            }
-
-            return transactionGetResponse;
+            return transactionGetAllMqResponse.ToModel();
         }
     }
 }

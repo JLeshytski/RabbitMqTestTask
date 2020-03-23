@@ -1,5 +1,4 @@
 ﻿using EasyNetQ;
-using EasyNetQ.Logging;
 using Microsoft.Extensions.Configuration;
 using RabbitMqTestTask.Common.Options;
 using RabbitMqTestTask.MqServer.BusinessLogic.Extensions;
@@ -34,7 +33,7 @@ namespace RabbitMqTestTask.MqServer
 
             var transactionService = new TransactionService(transactionRepository);
 
-            var bus = RabbitHutch.CreateBus(rabbitMqOptions.ConnectionString); 
+            var bus = RabbitHutch.CreateBus(rabbitMqOptions.ConnectionString);
 
             bus.AddTransactionService(transactionService);
         }
